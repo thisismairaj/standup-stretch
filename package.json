@@ -1,0 +1,38 @@
+{
+  "name": "standup-stretch",
+  "version": "1.0.0",
+  "description": "Nudges you to stand up and stretch after 90 minutes — as a Claude Code plugin, a Claude Code skill, or a standalone CLI for tmux/shell/any terminal",
+  "license": "MIT",
+  "author": "Muhammad Mairaj <thisismairaj@gmail.com> (https://github.com/thisismairaj)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thisismairaj/standup-stretch"
+  },
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "claude-code-skill",
+    "tmux",
+    "cli",
+    "wellness",
+    "status-line"
+  ],
+  "bin": {
+    "standup-stretch": "./bin/standup-stretch.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "data",
+    "hooks",
+    "scripts",
+    "skill",
+    ".claude-plugin"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "test": "node lib/render-panel.test.js && node lib/pick-nudge.test.js && node lib/session-state.test.js && node lib/global-state.test.js && node lib/format-status.test.js && node bin/standup-stretch.test.js"
+  }
+}

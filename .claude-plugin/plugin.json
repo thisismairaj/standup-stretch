@@ -1,0 +1,6 @@
+{
+  "name": "standup-stretch",
+  "version": "1.0.0",
+  "description": "Nudges you to stand up and stretch after 90 minutes in a Claude Code session",
+  "author": { "name": "Muhammad Mairaj", "email": "thisismairaj@gmail.com", "url": "https://github.com/thisismairaj" }
+}

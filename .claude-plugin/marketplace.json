@@ -1,0 +1,8 @@
+{
+  "name": "standup-stretch",
+  "description": "A Claude Code plugin that nudges you to stand up and stretch after 90 minutes in a session",
+  "owner": { "name": "Muhammad Mairaj" },
+  "plugins": [
+    { "name": "standup-stretch", "source": "./" }
+  ]
+}
