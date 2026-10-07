@@ -36,7 +36,7 @@
     "test": "npm run build && node dist/lib/render-panel.test.js && node dist/lib/pick-nudge.test.js && node dist/lib/session-state.test.js && node dist/lib/global-state.test.js && node dist/lib/format-status.test.js && node dist/bin/standup-stretch.test.js"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
   }
 }
