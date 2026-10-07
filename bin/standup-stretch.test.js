@@ -4,9 +4,12 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
+const { INTERVAL_MS } = require('../lib/constants');
 
 const binPath = path.join(__dirname, 'standup-stretch.js');
 const fakeHome = fs.mkdtempSync(path.join(os.tmpdir(), 'standup-stretch-cli-test-'));
+const intervalMinutes = Math.round(INTERVAL_MS / 60000);
+const expectedStatus = `🧘 ${intervalMinutes}m`;
 
 function run(args) {
   return execFileSync(process.execPath, [binPath, ...args], {
@@ -18,21 +21,27 @@ function run(args) {
 try {
   // status on a fresh fake home starts the timer and reports the full countdown
   const status1 = run(['status']).trim();
-  assert.strictEqual(status1, '🧘 90m');
+  assert.strictEqual(status1, expectedStatus);
 
-  // check before 90 minutes have passed prints nothing
+  // check before the interval has passed prints nothing
   const check1 = run(['check']);
   assert.strictEqual(check1, '');
 
-  // check --json before 90 minutes prints an empty systemMessage
+  // check --json before the interval has passed prints an empty systemMessage
   const checkJson1 = JSON.parse(run(['check', '--json']));
   assert.strictEqual(checkJson1.systemMessage, '');
 
-  // reset confirms and keeps the countdown at the top
+  // reset confirms with the real interval (this regressed once: it used to
+  // hardcode "90 minutes" even when INTERVAL_MS was something else) and
+  // keeps the countdown at the top
   const resetOutput = run(['reset']);
   assert.ok(resetOutput.includes('Timer reset'));
+  assert.ok(
+    resetOutput.includes(`${intervalMinutes} minute`),
+    `reset message should mention the real interval (${intervalMinutes}m), got: ${resetOutput}`
+  );
   const status2 = run(['status']).trim();
-  assert.strictEqual(status2, '🧘 90m');
+  assert.strictEqual(status2, expectedStatus);
 
   // --version prints a bare semver-ish string
   const version = run(['--version']).trim();

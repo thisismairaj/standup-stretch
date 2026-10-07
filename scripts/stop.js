@@ -23,7 +23,7 @@ function main() {
   const minutes = Math.round(elapsed / 60000);
 
   const panel = renderPanel({
-    heading: `You've been at it for ${minutes} minutes — stand up and stretch.`,
+    heading: `You've been at it for ${minutes} minute${minutes === 1 ? '' : 's'} — stand up and stretch.`,
     body: nudge.text,
   }, { cols: process.stdout.columns || 80 });
 

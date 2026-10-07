@@ -10,8 +10,10 @@ const { INTERVAL_MS } = require('../lib/constants');
 const pkg = require('../package.json');
 const pluginRoot = path.resolve(__dirname, '..');
 
-function loadOrInitState() {
-  const now = Date.now();
+// `now` is captured once by the caller and passed in, so a freshly
+// initialized state's lastNudge is never later than the elapsed-time
+// calculation that follows it — otherwise elapsedMs can go negative.
+function loadOrInitState(now) {
   const existing = readGlobalState();
   if (existing) return existing;
   const fresh = { lastNudge: now, lastIndex: -1 };
@@ -21,7 +23,7 @@ function loadOrInitState() {
 
 function cmdStatus() {
   const now = Date.now();
-  const state = loadOrInitState();
+  const state = loadOrInitState(now);
   const elapsedMs = now - state.lastNudge;
   const isDue = elapsedMs >= INTERVAL_MS;
   process.stdout.write(formatStatus({ elapsedMs, intervalMs: INTERVAL_MS, isDue }) + '\n');
@@ -30,7 +32,7 @@ function cmdStatus() {
 function cmdCheck(args) {
   const asJson = args.includes('--json');
   const now = Date.now();
-  const state = loadOrInitState();
+  const state = loadOrInitState(now);
   const elapsedMs = now - state.lastNudge;
 
   if (elapsedMs < INTERVAL_MS) {
@@ -41,7 +43,7 @@ function cmdCheck(args) {
   const nudge = pickNudge(pluginRoot, state.lastIndex);
   const minutes = Math.round(elapsedMs / 60000);
   const panel = renderPanel({
-    heading: `You've been at it for ${minutes} minutes — stand up and stretch.`,
+    heading: `You've been at it for ${minutes} minute${minutes === 1 ? '' : 's'} — stand up and stretch.`,
     body: nudge.text,
   }, { cols: process.stdout.columns || 80 });
 
@@ -56,7 +58,8 @@ function cmdCheck(args) {
 
 function cmdReset() {
   writeGlobalState({ lastNudge: Date.now(), lastIndex: -1 });
-  process.stdout.write('Timer reset. Next stretch reminder in 90 minutes.\n');
+  const minutes = Math.round(INTERVAL_MS / 60000);
+  process.stdout.write(`Timer reset. Next stretch reminder in ${minutes} minute${minutes === 1 ? '' : 's'}.\n`);
 }
 
 function cmdHelp() {
