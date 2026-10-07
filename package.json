@@ -6,7 +6,7 @@
   "author": "Muhammad Mairaj <thisismairaj@gmail.com> (https://github.com/thisismairaj)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thisismairaj/standup-stretch"
+    "url": "git+https://github.com/thisismairaj/standup-stretch.git"
   },
   "keywords": [
     "claude-code",
@@ -18,7 +18,7 @@
     "status-line"
   ],
   "bin": {
-    "standup-stretch": "./bin/standup-stretch.js"
+    "standup-stretch": "bin/standup-stretch.js"
   },
   "files": [
     "bin",
