@@ -110,21 +110,24 @@ standup-stretch/
 │   ├── plugin.json           # Plugin manifest
 │   └── marketplace.json      # Makes this repo installable via /plugin
 ├── hooks/
-│   └── hooks.json            # SessionStart, Stop, SessionEnd — the plugin surface
-├── scripts/                   # Plugin hook entrypoints (self-contained, no CLI dependency)
-│   ├── session-start.js
-│   ├── stop.js
-│   └── session-end.js
-├── bin/
-│   └── standup-stretch.js    # CLI entrypoint (status / check / reset)
-├── lib/                       # Shared core — used by both the plugin and the CLI
-│   ├── constants.js           # The 90-minute interval
-│   ├── session-state.js       # Per-Claude-session state (plugin)
-│   ├── global-state.js        # Global state (CLI)
-│   ├── pick-nudge.js          # Picks a stretch suggestion, avoids immediate repeats
-│   ├── render-panel.js        # Framed panel renderer
-│   ├── format-status.js       # Compact status-line formatter
-│   └── plugin-root.js
+│   └── hooks.json            # SessionStart, Stop, SessionEnd — point at dist/scripts/*.js
+├── src/                       # TypeScript source
+│   ├── scripts/                # Plugin hook entrypoints (self-contained, no CLI dependency)
+│   │   ├── session-start.ts
+│   │   ├── stop.ts
+│   │   └── session-end.ts
+│   ├── bin/
+│   │   └── standup-stretch.ts  # CLI entrypoint (status / check / reset)
+│   └── lib/                    # Shared core — used by both the plugin and the CLI
+│       ├── constants.ts          # The 90-minute interval
+│       ├── session-state.ts      # Per-Claude-session state (plugin)
+│       ├── global-state.ts       # Global state (CLI)
+│       ├── pick-nudge.ts         # Picks a stretch suggestion, avoids immediate repeats
+│       ├── render-panel.ts       # Framed panel renderer
+│       ├── format-status.ts      # Compact status-line formatter
+│       └── plugin-root.ts
+├── dist/                       # Compiled output (`npm run build`), committed — this is what
+│                                 the plugin, CLI, and tests actually run
 ├── skill/standup-stretch/
 │   └── SKILL.md               # The skill surface — wraps the CLI
 └── data/
@@ -132,6 +135,8 @@ standup-stretch/
 ```
 
 Nothing is sent anywhere, in any surface. No network calls, no telemetry — just a timestamp written to a local file.
+
+Built with TypeScript (`npm run build`, mirroring `tsc` → `dist/`); `npm test` builds and then runs the compiled test files.
 
 ---
 
