@@ -7,6 +7,27 @@
 
 ---
 
+## Why this matters
+
+Pairing with an AI removes the one thing that used to force a break:
+waiting on your own typing or your own compile. A session can now run three
+hours start to finish with no natural pause built into the work at all -
+which is exactly how "I'll just finish this one thing" turns into a stiff
+neck and a missed lunch.
+
+standup-stretch doesn't fix your posture for you. It just makes sure you
+notice, on a fixed clock, instead of relying on the judgment that session
+momentum is actively eroding. The value here isn't a productivity number -
+it's removing one more thing you have to remember to do for yourself.
+
+**One honest limit:** the interval is a fixed 90 minutes and isn't
+configurable, and the Claude Code plugin only checks the clock when a turn
+actually finishes - so if you're mid-turn, mid-thought, or just not sending
+anything for a while, the nudge waits for your next turn to fire rather than
+interrupting you in real time.
+
+---
+
 ## What it looks like
 
 ```
